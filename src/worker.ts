@@ -12,23 +12,23 @@ type ChatMessage = {
 
 export interface Env {
 	SLACK_TOKEN: string
-	CHANNEL: string
+	// CHANNEL: string
 
 	SQUEUE: Queue<QueueMessage>;
 }
 
 export default {
-	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-		await env.SQUEUE.send({
-			type: 'chat',
-			body: {
-				channel: env.CHANNEL,
-				text: 'Hello world!2',
-			}
-		});
+	// async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+	// 	await env.SQUEUE.send({
+	// 		type: 'chat',
+	// 		body: {
+	// 			channel: env.CHANNEL,
+	// 			text: 'Hello world!2',
+	// 		}
+	// 	});
 
-		return new Response('ok');
-	},
+	// 	return new Response('ok');
+	// },
 
 	async queue(
 		batch: MessageBatch<QueueMessage>,

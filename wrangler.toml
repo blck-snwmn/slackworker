@@ -4,11 +4,10 @@ compatibility_date = "2023-08-20"
 
 [[queues.consumers]]
 queue = "slackqueue"
-binding = "SQUEUE"
 
-[[queues.producers]]
-queue = "slackqueue"
-binding = "SQUEUE"
+# [[queues.producers]]
+# queue = "slackqueue"
+# binding = "SQUEUE"
 
 # # Queue binding - For more information: https://developers.cloudflare.com/workers/runtime-apis/queues
 # [[queues]]
