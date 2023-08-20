@@ -5,7 +5,7 @@ type NopMessage = {
 }
 
 type ChatMessage = {
-	type: 'chat';
+	type: "chat.postMessage";
 	body: Record<string, string>;
 }
 
@@ -38,8 +38,9 @@ export default {
 		console.log(batch.queue)
 		for (const message of batch.messages) {
 			console.log(message.body)
+
 			switch (message.body.type) {
-				case 'chat':
+				case 'chat.postMessage':
 					console.log(JSON.stringify(message.body.body))
 					const resp = await fetch('https://slack.com/api/chat.postMessage', {
 						method: 'POST',
