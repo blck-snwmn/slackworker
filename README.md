@@ -11,7 +11,6 @@ A worker that consume messages from the queue and notifies Slack.
 
 Replace 
 - '<Your_Slack_Bearer_Token>' with the bearer token for the Slack file upload API
-- '<Your_CHANNEL>' with the channel you want to notify.
 
 ## Setting
 Run the following commands to add your secrets to the Workers configuration:
