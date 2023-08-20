@@ -7,7 +7,6 @@ A worker that consume messages from the queue and notifies Slack.
 2. Write the following key-value pairs in the .dev.vars file:
   ```
   SLACK_TOKEN=<Your_SLACK_TOKEN>
-  CHANNEL=<Your_CHANNEL>
   ```
 
 Replace 
@@ -20,7 +19,6 @@ Run the following commands to add your secrets to the Workers configuration:
 secret
 ```bash
 wrangler secret put SLACK_TOKEN
-wrangler secret put CHANNEL
 ```
 
 queues
