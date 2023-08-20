@@ -5,7 +5,7 @@ A worker that consume messages from the queue and notifies Slack.
 ## Setting(for Local)
 1. Create a file named .dev.vars in the project root directory.
 2. Write the following key-value pairs in the .dev.vars file:
-  ```toml
+  ```
   SLACK_TOKEN=<Your_SLACK_TOKEN>
   CHANNEL=<Your_CHANNEL>
   ```
@@ -16,9 +16,16 @@ Replace
 
 ## Setting
 Run the following commands to add your secrets to the Workers configuration:
+
+secret
 ```bash
 wrangler secret put SLACK_TOKEN
 wrangler secret put CHANNEL
+```
+
+queues
+```bash
+wrangler queues create slackqueue
 ```
 
 ## Deploy
