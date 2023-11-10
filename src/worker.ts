@@ -22,7 +22,7 @@ export default {
 		await env.SQUEUE.send({
 			type: "chat.postMessage",
 			body: {
-				channel: "channel_id",
+				channel: env.CHANNEL,
 				text: "hello",
 			},
 		});
