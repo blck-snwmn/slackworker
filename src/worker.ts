@@ -12,7 +12,7 @@ type ChatMessage = {
 
 export interface Env {
 	SLACK_TOKEN: string
-	CHANNEL: string
+	NOTIFY_CHANNEL: string
 
 	SQUEUE: Queue;
 }
@@ -22,7 +22,7 @@ export default {
 		await env.SQUEUE.send({
 			type: "chat.postMessage",
 			body: {
-				channel: env.CHANNEL,
+				channel: env.NOTIFY_CHANNEL,
 				text: "hello",
 			},
 		});
