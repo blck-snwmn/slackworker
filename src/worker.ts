@@ -66,7 +66,7 @@ export default {
 								},
 								{
 									type: "mrkdwn",
-									text: `*Exceptions:*\n${exceptions}`
+									text: `*HTTP Status:*\n${event.event && "response" in event.event && event.event.response ? event.event.response.status : "n/a"}`
 								},
 							]
 						},
@@ -75,7 +75,7 @@ export default {
 							fields: [
 								{
 									type: "mrkdwn",
-									text: `*HTTP Status:*\n${event.event && "response" in event.event && event.event.response ? event.event.response.status : "n/a"}`
+									text: `*Exceptions:*\n${exceptions}`
 								},
 							]
 						},
