@@ -12,23 +12,75 @@ type ChatMessage = {
 
 export interface Env {
 	SLACK_TOKEN: string
-	// CHANNEL: string
+	CHANNEL: string
 
-	SQUEUE: Queue<QueueMessage>;
+	SQUEUE: Queue;
 }
 
 export default {
-	// async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-	// 	await env.SQUEUE.send({
-	// 		type: 'chat',
-	// 		body: {
-	// 			channel: env.CHANNEL,
-	// 			text: 'Hello world!2',
-	// 		}
-	// 	});
-
-	// 	return new Response('ok');
-	// },
+	async tail(events: TraceItem[], env: Env, ctx: ExecutionContext) {
+		for (const event of events) {
+			await env.SQUEUE.send({
+				type: "chat.postMessage",
+				body: {
+					channel: env.CHANNEL,
+					blocks: [
+						{
+							type: "header",
+							text: {
+								type: "plain_text",
+								text: "Worker execution",
+							}
+						},
+						{
+							type: "section",
+							text: {
+								type: "mrkdwn",
+								fields: [
+									{
+										type: "mrkdwn",
+										text: `*ScriptName:*\n${event.scriptName}`
+									},
+									{
+										type: "mrkdwn",
+										text: `*EventAt:*\n${event.eventTimestamp ? (new Date(event.eventTimestamp)).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : "n/a"}`
+									},
+								]
+							}
+						},
+						{
+							type: "section",
+							text: {
+								type: "mrkdwn",
+								fields: [
+									{
+										type: "mrkdwn",
+										text: `*Outcome:*\n${event.outcome}`
+									},
+									{
+										type: "mrkdwn",
+										text: `*Exceptions:*\n${event.exceptions?.map(e => e.message).join("\n") ?? "n/a"}`
+									},
+								]
+							}
+						},
+						{
+							type: "section",
+							text: {
+								type: "mrkdwn",
+								fields: [
+									{
+										type: "mrkdwn",
+										text: `*HTTP Status:*\n${event.event && "response" in event.event && event.event.response ? event.event.response.status : "n/a"}`
+									},
+								]
+							}
+						},
+					]
+				},
+			});
+		}
+	},
 
 	async queue(
 		batch: MessageBatch<QueueMessage>,
