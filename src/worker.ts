@@ -27,6 +27,11 @@ export default {
 		// 	},
 		// });
 		for (const event of events) {
+			let exceptions = "n/a"
+			if (event.exceptions && event.exceptions.length > 0) {
+				exceptions = event.exceptions.map(e => e.message).join("\n")
+			}
+
 			await env.SQUEUE.send({
 				type: "chat.postMessage",
 				body: {
@@ -41,47 +46,38 @@ export default {
 						},
 						{
 							type: "section",
-							text: {
-								type: "mrkdwn",
-								fields: [
-									{
-										type: "mrkdwn",
-										text: `*ScriptName:*\n${event.scriptName}`
-									},
-									{
-										type: "mrkdwn",
-										text: `*EventAt:*\n${event.eventTimestamp ? (new Date(event.eventTimestamp)).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : "n/a"}`
-									},
-								]
-							}
+							fields: [
+								{
+									type: "mrkdwn",
+									text: `*ScriptName:*\n${event.scriptName}`
+								},
+								{
+									type: "mrkdwn",
+									text: `*EventAt:*\n${event.eventTimestamp ? (new Date(event.eventTimestamp)).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : "n/a"}`
+								},
+							]
 						},
 						{
 							type: "section",
-							text: {
-								type: "mrkdwn",
-								fields: [
-									{
-										type: "mrkdwn",
-										text: `*Outcome:*\n${event.outcome}`
-									},
-									{
-										type: "mrkdwn",
-										text: `*Exceptions:*\n${event.exceptions?.map(e => e.message).join("\n") ?? "n/a"}`
-									},
-								]
-							}
+							fields: [
+								{
+									type: "mrkdwn",
+									text: `*Outcome:*\n${event.outcome}`
+								},
+								{
+									type: "mrkdwn",
+									text: `*Exceptions:*\n${exceptions}`
+								},
+							]
 						},
 						{
 							type: "section",
-							text: {
-								type: "mrkdwn",
-								fields: [
-									{
-										type: "mrkdwn",
-										text: `*HTTP Status:*\n${event.event && "response" in event.event && event.event.response ? event.event.response.status : "n/a"}`
-									},
-								]
-							}
+							fields: [
+								{
+									type: "mrkdwn",
+									text: `*HTTP Status:*\n${event.event && "response" in event.event && event.event.response ? event.event.response.status : "n/a"}`
+								},
+							]
 						},
 					]
 				},
