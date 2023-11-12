@@ -19,70 +19,67 @@ export interface Env {
 
 export default {
 	async tail(events: TraceItem[], env: Env, ctx: ExecutionContext) {
-		// await env.SQUEUE.send({
-		// 	type: "chat.postMessage",
-		// 	body: {
-		// 		channel: env.NOTIFY_CHANNEL,
-		// 		text: "hello",
-		// 	},
-		// });
-		for (const event of events) {
-			let exceptions = "n/a"
-			if (event.exceptions && event.exceptions.length > 0) {
-				exceptions = event.exceptions.map(e => e.message).join("\n")
-			}
-
-			await env.SQUEUE.send({
-				type: "chat.postMessage",
-				body: {
-					channel: env.NOTIFY_CHANNEL,
-					blocks: [
-						{
-							type: "header",
-							text: {
-								type: "plain_text",
-								text: "Worker execution",
-							}
-						},
-						{
-							type: "section",
-							fields: [
-								{
-									type: "mrkdwn",
-									text: `*ScriptName:*\n${event.scriptName}`
-								},
-								{
-									type: "mrkdwn",
-									text: `*EventAt:*\n${event.eventTimestamp ? (new Date(event.eventTimestamp)).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : "n/a"}`
-								},
-							]
-						},
-						{
-							type: "section",
-							fields: [
-								{
-									type: "mrkdwn",
-									text: `*Outcome:*\n${event.outcome}`
-								},
-								{
-									type: "mrkdwn",
-									text: `*HTTP Status:*\n${event.event && "response" in event.event && event.event.response ? event.event.response.status : "n/a"}`
-								},
-							]
-						},
-						{
-							type: "section",
-							fields: [
-								{
-									type: "mrkdwn",
-									text: `*Exceptions:*\n${exceptions}`
-								},
-							]
-						},
-					]
-				},
-			});
+		if (events.length === 0) {
+			return;
 		}
+		// for (const event of events) {
+		const event = events[0]
+		let exceptions = "n/a"
+		if (event.exceptions && event.exceptions.length > 0) {
+			exceptions = event.exceptions.map(e => e.message).join("\n")
+		}
+
+		await env.SQUEUE.send({
+			type: "chat.postMessage",
+			body: {
+				channel: env.NOTIFY_CHANNEL,
+				blocks: [
+					{
+						type: "header",
+						text: {
+							type: "plain_text",
+							text: "Worker execution",
+						}
+					},
+					{
+						type: "section",
+						fields: [
+							{
+								type: "mrkdwn",
+								text: `*ScriptName:*\n${event.scriptName}`
+							},
+							{
+								type: "mrkdwn",
+								text: `*EventAt:*\n${event.eventTimestamp ? (new Date(event.eventTimestamp)).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : "n/a"}`
+							},
+						]
+					},
+					{
+						type: "section",
+						fields: [
+							{
+								type: "mrkdwn",
+								text: `*Outcome:*\n${event.outcome}`
+							},
+							{
+								type: "mrkdwn",
+								text: `*HTTP Status:*\n${event.event && "response" in event.event && event.event.response ? event.event.response.status : "n/a"}`
+							},
+						]
+					},
+					{
+						type: "section",
+						fields: [
+							{
+								type: "mrkdwn",
+								text: `*Exceptions:*\n${exceptions}`
+							},
+						]
+					},
+				]
+			},
+		});
+		// }
 	},
 
 	async queue(
