@@ -31,3 +31,27 @@ After you've added the secrets, deploy the Worker with the following command:
 wrangler deploy
 ```
 
+## Use
+### Send to queue from cf worker(note: Queues is open beta)
+Add the following to your wrangler.toml
+
+```toml
+[[queues.producers]]
+queue = "slackqueue"
+binding = "SLACK_NOTIFIER"
+```
+
+Add the following to your worker script
+
+```js
+export interface Env {
+	SLACK_NOTIFIER: Queue;
+}
+```
+
+### Tail worker(note: Tail Workers is open beta)
+Add the following to your wrangler.toml
+
+```toml
+tail_consumers = [{service = "slackworker"}]
+```
