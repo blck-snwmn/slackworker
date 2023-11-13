@@ -9,6 +9,42 @@ type ChatMessage = {
 	body: Record<string, string>;
 }
 
+function eventName(event:
+	| (
+		| TraceItemFetchEventInfo
+		| TraceItemScheduledEventInfo
+		| TraceItemAlarmEventInfo
+		| TraceItemQueueEventInfo
+		| TraceItemEmailEventInfo
+		| TraceItemCustomEventInfo
+	)
+	| null) {
+	if (!event) {
+		return "n/a"
+	}
+	if ("response" in event) {
+		// TraceItemFetchEventInfo
+		return "Fetch"
+	}
+	if ("cron" in event) {
+		// TraceItemScheduledEventInfo
+		return "Scheduled"
+	}
+	if ("scheduledTime" in event) {
+		// TraceItemAlarmEventInfo
+		return "Alarm"
+	}
+	if ("queue" in event) {
+		// TraceItemQueueEventInfo
+		return "Queue"
+	}
+	if ("mailFrom" in event) {
+		// TraceItemEmailEventInfo
+		return "Email"
+	}
+	return "Custom"
+}
+
 
 export interface Env {
 	SLACK_TOKEN: string
@@ -59,17 +95,21 @@ export default {
 						fields: [
 							{
 								type: "mrkdwn",
-								text: `*Outcome:*\n${event.outcome}`
+								text: `*Event:*\n${eventName(event.event)}`,
 							},
 							{
 								type: "mrkdwn",
-								text: `*HTTP Status:*\n${event.event && "response" in event.event && event.event.response ? event.event.response.status : "n/a"}`
+								text: `*Outcome:*\n${event.outcome}`
 							},
 						]
 					},
 					{
 						type: "section",
 						fields: [
+							{
+								type: "mrkdwn",
+								text: `*HTTP Status:*\n${event.event && "response" in event.event && event.event.response ? event.event.response.status : "n/a"}`
+							},
 							{
 								type: "mrkdwn",
 								text: `*Exceptions:*\n${exceptions}`
