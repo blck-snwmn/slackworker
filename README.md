@@ -47,6 +47,14 @@ Add the following to your worker script
 export interface Env {
 	SLACK_NOTIFIER: Queue;
 }
+...
+await env.SLACK_NOTIFIER.send({
+    type: "chat.postMessage",
+    body: {
+        channel: "your channel id"
+        text: "Hello, world!", // or blocks
+    },
+});
 ```
 
 ### Tail worker(note: Tail Workers is open beta)
