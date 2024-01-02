@@ -64,59 +64,68 @@ export default {
 		if (event.exceptions && event.exceptions.length > 0) {
 			exceptions = event.exceptions.map(e => e.message).join("\n")
 		}
+		const colorSuccess = "#28a745"
+		const colorError = "#dc3545"
+
+		const color = event.outcome === "ok" ? colorSuccess : colorError
 
 		await env.SQUEUE.send({
 			type: "chat.postMessage",
 			body: {
 				channel: env.NOTIFY_CHANNEL,
-				blocks: [
+				attachments: [
 					{
-						type: "header",
-						text: {
-							type: "plain_text",
-							text: "Worker execution",
-						}
-					},
-					{
-						type: "section",
-						fields: [
+						color: color,
+						blocks: [
 							{
-								type: "mrkdwn",
-								text: `*ScriptName:*\n${event.scriptName}`
+								type: "header",
+								text: {
+									type: "plain_text",
+									text: "Worker execution",
+								}
 							},
 							{
-								type: "mrkdwn",
-								text: `*EventAt:*\n${event.eventTimestamp ? (new Date(event.eventTimestamp)).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : "n/a"}`
+								type: "section",
+								fields: [
+									{
+										type: "mrkdwn",
+										text: `*ScriptName:*\n${event.scriptName}`
+									},
+									{
+										type: "mrkdwn",
+										text: `*EventAt:*\n${event.eventTimestamp ? (new Date(event.eventTimestamp)).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : "n/a"}`
+									},
+								]
+							},
+							{
+								type: "section",
+								fields: [
+									{
+										type: "mrkdwn",
+										text: `*Event:*\n${eventName(event.event)}`,
+									},
+									{
+										type: "mrkdwn",
+										text: `*Outcome:*\n${event.outcome}`
+									},
+								]
+							},
+							{
+								type: "section",
+								fields: [
+									{
+										type: "mrkdwn",
+										text: `*HTTP Status:*\n${event.event && "response" in event.event && event.event.response ? event.event.response.status : "n/a"}`
+									},
+									{
+										type: "mrkdwn",
+										text: `*Exceptions:*\n${exceptions}`
+									},
+								]
 							},
 						]
-					},
-					{
-						type: "section",
-						fields: [
-							{
-								type: "mrkdwn",
-								text: `*Event:*\n${eventName(event.event)}`,
-							},
-							{
-								type: "mrkdwn",
-								text: `*Outcome:*\n${event.outcome}`
-							},
-						]
-					},
-					{
-						type: "section",
-						fields: [
-							{
-								type: "mrkdwn",
-								text: `*HTTP Status:*\n${event.event && "response" in event.event && event.event.response ? event.event.response.status : "n/a"}`
-							},
-							{
-								type: "mrkdwn",
-								text: `*Exceptions:*\n${exceptions}`
-							},
-						]
-					},
-				]
+					}
+				],
 			},
 		});
 		// }
