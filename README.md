@@ -1,4 +1,6 @@
 # slackworker
+[![Deploy](https://github.com/blck-snwmn/slackworker/actions/workflows/deploy.yaml/badge.svg)](https://github.com/blck-snwmn/slackworker/actions/workflows/deploy.yaml)
+[![CodeQL](https://github.com/blck-snwmn/slackworker/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/blck-snwmn/slackworker/actions/workflows/github-code-scanning/codeql)
 
 A worker that consume messages from the queue and notifies Slack. 
 
