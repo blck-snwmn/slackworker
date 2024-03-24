@@ -137,7 +137,7 @@ export default {
 			console.log(message.body);
 
 			switch (message.body.type) {
-				case "chat.postMessage":
+				case "chat.postMessage": {
 					console.log(JSON.stringify(message.body.body));
 					const resp = await fetch("https://slack.com/api/chat.postMessage", {
 						method: "POST",
@@ -153,6 +153,7 @@ export default {
 						console.log(await resp.text());
 					}
 					break;
+				}
 			}
 			// always ack the message
 			message.ack();
