@@ -23,7 +23,7 @@ describe("Hello World worker", () => {
 
 		// Enqueue job on queue
 		const ctx = createExecutionContext();
-		const response = await worker.tail(
+		await worker.tail(
 			[
 				{
 					// TraceItemFetchEventInfo
