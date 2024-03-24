@@ -1,14 +1,3 @@
-type QueueMessage = NopMessage | ChatMessage
-
-type NopMessage = {
-	type: '';
-}
-
-type ChatMessage = {
-	type: "chat.postMessage";
-	body: Record<string, string>;
-}
-
 function eventName(event:
 	| (
 		| TraceItemFetchEventInfo
@@ -45,13 +34,6 @@ function eventName(event:
 	return "Custom"
 }
 
-
-export interface Env {
-	SLACK_TOKEN: string
-	NOTIFY_CHANNEL: string
-
-	SQUEUE: Queue;
-}
 
 export default {
 	async tail(events: TraceItem[], env: Env, ctx: ExecutionContext) {
@@ -162,4 +144,4 @@ export default {
 			message.ack();
 		}
 	},
-};
+} satisfies ExportedHandler<Env, QueueMessage>;
