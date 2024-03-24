@@ -1,39 +1,40 @@
-function eventName(event:
-	| (
-		| TraceItemFetchEventInfo
-		| TraceItemScheduledEventInfo
-		| TraceItemAlarmEventInfo
-		| TraceItemQueueEventInfo
-		| TraceItemEmailEventInfo
-		| TraceItemCustomEventInfo
-	)
-	| null) {
+function eventName(
+	event:
+		| (
+				| TraceItemFetchEventInfo
+				| TraceItemScheduledEventInfo
+				| TraceItemAlarmEventInfo
+				| TraceItemQueueEventInfo
+				| TraceItemEmailEventInfo
+				| TraceItemCustomEventInfo
+		  )
+		| null,
+) {
 	if (!event) {
-		return "n/a"
+		return "n/a";
 	}
 	if ("response" in event) {
 		// TraceItemFetchEventInfo
-		return "Fetch"
+		return "Fetch";
 	}
 	if ("cron" in event) {
 		// TraceItemScheduledEventInfo
-		return "Scheduled"
+		return "Scheduled";
 	}
 	if ("scheduledTime" in event) {
 		// TraceItemAlarmEventInfo
-		return "Alarm"
+		return "Alarm";
 	}
 	if ("queue" in event) {
 		// TraceItemQueueEventInfo
-		return "Queue"
+		return "Queue";
 	}
 	if ("mailFrom" in event) {
 		// TraceItemEmailEventInfo
-		return "Email"
+		return "Email";
 	}
-	return "Custom"
+	return "Custom";
 }
-
 
 export default {
 	async tail(events: TraceItem[], env: Env, ctx: ExecutionContext) {
@@ -41,15 +42,15 @@ export default {
 			return;
 		}
 		// for (const event of events) {
-		const event = events[0]
-		let exceptions = "n/a"
+		const event = events[0];
+		let exceptions = "n/a";
 		if (event.exceptions && event.exceptions.length > 0) {
-			exceptions = event.exceptions.map(e => e.message).join("\n")
+			exceptions = event.exceptions.map((e) => e.message).join("\n");
 		}
-		const colorSuccess = "#28a745"
-		const colorError = "#dc3545"
+		const colorSuccess = "#28a745";
+		const colorError = "#dc3545";
 
-		const color = event.outcome === "ok" ? colorSuccess : colorError
+		const color = event.outcome === "ok" ? colorSuccess : colorError;
 
 		await env.SQUEUE.send({
 			type: "chat.postMessage",
@@ -64,20 +65,27 @@ export default {
 								text: {
 									type: "plain_text",
 									text: "Worker execution",
-								}
+								},
 							},
 							{
 								type: "section",
 								fields: [
 									{
 										type: "mrkdwn",
-										text: `*ScriptName:*\n${event.scriptName}`
+										text: `*ScriptName:*\n${event.scriptName}`,
 									},
 									{
 										type: "mrkdwn",
-										text: `*EventAt:*\n${event.eventTimestamp ? (new Date(event.eventTimestamp)).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : "n/a"}`
+										text: `*EventAt:*\n${
+											event.eventTimestamp
+												? new Date(event.eventTimestamp).toLocaleString(
+														"ja-JP",
+														{ timeZone: "Asia/Tokyo" },
+													)
+												: "n/a"
+										}`,
 									},
-								]
+								],
 							},
 							{
 								type: "section",
@@ -88,25 +96,31 @@ export default {
 									},
 									{
 										type: "mrkdwn",
-										text: `*Outcome:*\n${event.outcome}`
+										text: `*Outcome:*\n${event.outcome}`,
 									},
-								]
+								],
 							},
 							{
 								type: "section",
 								fields: [
 									{
 										type: "mrkdwn",
-										text: `*HTTP Status:*\n${event.event && "response" in event.event && event.event.response ? event.event.response.status : "n/a"}`
+										text: `*HTTP Status:*\n${
+											event.event &&
+											"response" in event.event &&
+											event.event.response
+												? event.event.response.status
+												: "n/a"
+										}`,
 									},
 									{
 										type: "mrkdwn",
-										text: `*Exceptions:*\n${exceptions}`
+										text: `*Exceptions:*\n${exceptions}`,
 									},
-								]
+								],
 							},
-						]
-					}
+						],
+					},
 				],
 			},
 		});
@@ -116,27 +130,27 @@ export default {
 	async queue(
 		batch: MessageBatch<QueueMessage>,
 		env: Env,
-		ctx: ExecutionContext
+		ctx: ExecutionContext,
 	): Promise<void> {
-		console.log(batch.queue)
+		console.log(batch.queue);
 		for (const message of batch.messages) {
-			console.log(message.body)
+			console.log(message.body);
 
 			switch (message.body.type) {
-				case 'chat.postMessage':
-					console.log(JSON.stringify(message.body.body))
-					const resp = await fetch('https://slack.com/api/chat.postMessage', {
-						method: 'POST',
+				case "chat.postMessage":
+					console.log(JSON.stringify(message.body.body));
+					const resp = await fetch("https://slack.com/api/chat.postMessage", {
+						method: "POST",
 						headers: {
-							'Content-Type': 'application/json',
+							"Content-Type": "application/json",
 							Authorization: `Bearer ${env.SLACK_TOKEN}`,
 						},
-						body: JSON.stringify(message.body.body)
-					})
-					console.log(resp.status)
+						body: JSON.stringify(message.body.body),
+					});
+					console.log(resp.status);
 					if (!resp.ok) {
-						// print log only. 
-						console.log(await resp.text())
+						// print log only.
+						console.log(await resp.text());
 					}
 					break;
 			}
