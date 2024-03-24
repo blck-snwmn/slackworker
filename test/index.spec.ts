@@ -12,7 +12,7 @@ afterEach(() => {
 	vi.restoreAllMocks();
 });
 
-describe("Hello World worker", () => {
+describe("test queue", () => {
 	it("produces queue message with mocked send", async () => {
 		// Intercept calls to `QUEUE_PRODUCER.send()`
 		const sendSpy = vi
