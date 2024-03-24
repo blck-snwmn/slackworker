@@ -17,7 +17,7 @@ describe("Hello World worker", () => {
 		// Intercept calls to `QUEUE_PRODUCER.send()`
 		const sendSpy = vi
 			.spyOn(env.SQUEUE, "send")
-			.mockImplementation(async () => {});
+			.mockImplementation(async () => { });
 
 		const now = new Date();
 
