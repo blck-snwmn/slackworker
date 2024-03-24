@@ -1,15 +1,27 @@
 import {
 	createExecutionContext,
+	createMessageBatch,
 	env,
+	getQueueResult,
 	waitOnExecutionContext,
+	fetchMock,
 } from "cloudflare:test";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import worker from "../src/worker";
+import { randomBytes } from "node:crypto";
 
 const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
 
+beforeAll(() => {
+	// Enable outbound request mocking...
+	fetchMock.activate();
+	// ...and throw errors if an outbound request isn't mocked
+	fetchMock.disableNetConnect();
+});
+
 afterEach(() => {
 	vi.restoreAllMocks();
+	fetchMock.assertNoPendingInterceptors()
 });
 
 describe("test queue producer", () => {
@@ -206,3 +218,47 @@ describe("test queue producer", () => {
 		});
 	});
 });
+
+describe("test queue comsumer", () => {
+	it("consumes queue messages", async () => {
+		fetchMock
+			.get("https://slack.com")
+			.intercept({
+				path: "/api/chat.postMessage",
+				method: "POST",
+				headers: {
+					Authorization: "Bearer TEST_TOKEN",
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					channel: "TEST_CHANNEL",
+					body: "Test",
+				})
+			})
+			.reply(200);
+
+		const messages: ServiceBindingQueueMessage<QueueMessage>[] = [
+			{
+				id: randomBytes(16).toString("hex"),
+				timestamp: new Date(1000),
+				body: {
+					type: "chat.postMessage",
+					body: {
+						channel: "TEST_CHANNEL",
+						body: "Test",
+					},
+				},
+			},
+		];
+		const batch = createMessageBatch("queue", messages);
+		const ctx = createExecutionContext();
+		await worker.queue(batch, env, ctx);
+
+		const result = await getQueueResult(batch, ctx);
+		expect(result.outcome).toBe("ok");
+		expect(result.retryBatch.retry).toBe(false); // `true` if `batch.retryAll()` called
+		expect(result.ackAll).toBe(false); // `true` if `batch.ackAll()` called
+		expect(result.retryMessages).toStrictEqual([]);
+		expect(result.explicitAcks).toStrictEqual([messages[0].id]);
+	});
+})
