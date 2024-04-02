@@ -6,7 +6,7 @@ settings:
 
 devDependencies:
   '@biomejs/biome':
-    specifier: ^1.6.2
+    specifier: ^1.6.3
     version: 1.6.3
   '@cloudflare/vitest-pool-workers':
     specifier: ^0.1.5

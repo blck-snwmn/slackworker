@@ -1,14 +1,14 @@
+import { randomBytes } from "node:crypto";
 import {
 	createExecutionContext,
 	createMessageBatch,
 	env,
+	fetchMock,
 	getQueueResult,
 	waitOnExecutionContext,
-	fetchMock,
 } from "cloudflare:test";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import worker from "../src/worker";
-import { randomBytes } from "node:crypto";
 
 const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
 
@@ -21,7 +21,7 @@ beforeAll(() => {
 
 afterEach(() => {
 	vi.restoreAllMocks();
-	fetchMock.assertNoPendingInterceptors()
+	fetchMock.assertNoPendingInterceptors();
 });
 
 describe("test queue producer", () => {
@@ -29,7 +29,7 @@ describe("test queue producer", () => {
 		// Intercept calls to `QUEUE_PRODUCER.send()`
 		const sendSpy = vi
 			.spyOn(env.SQUEUE, "send")
-			.mockImplementation(async () => { });
+			.mockImplementation(async () => {});
 
 		const now = new Date();
 
@@ -124,7 +124,7 @@ describe("test queue producer", () => {
 	it("produces queue message with mocked consumer", async () => {
 		const consumerSpy = vi
 			.spyOn(worker, "queue")
-			.mockImplementation(async () => { });
+			.mockImplementation(async () => {});
 
 		const now = new Date();
 
@@ -233,7 +233,7 @@ describe("test queue comsumer", () => {
 				body: JSON.stringify({
 					channel: "TEST_CHANNEL",
 					body: "Test",
-				})
+				}),
 			})
 			.reply(200);
 
@@ -262,4 +262,4 @@ describe("test queue comsumer", () => {
 		expect(result.retryMessages).toStrictEqual([]);
 		expect(result.explicitAcks).toStrictEqual([messages[0].id]);
 	});
-})
+});
