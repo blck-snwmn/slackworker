@@ -241,6 +241,7 @@ describe("test queue comsumer", () => {
 			{
 				id: randomBytes(16).toString("hex"),
 				timestamp: new Date(1000),
+				attempts: 0,
 				body: {
 					type: "chat.postMessage",
 					body: {
