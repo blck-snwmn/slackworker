@@ -7,7 +7,7 @@
 		"start": "wrangler dev"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.6.3",
+		"@biomejs/biome": "^1.7.3",
 		"@cloudflare/vitest-pool-workers": "^0.1.5",
 		"@cloudflare/workers-types": "^4.20240320.1",
 		"typescript": "^5.3.3",
