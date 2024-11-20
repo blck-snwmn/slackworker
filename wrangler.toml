@@ -5,10 +5,6 @@ compatibility_flags = ["nodejs_compat"]
 
 workers_dev = false
 
-tail_consumers = [
-  {service = "cf-tail-logger"},
-]
-
 [[queues.consumers]]
 queue = "slackqueue"
 
