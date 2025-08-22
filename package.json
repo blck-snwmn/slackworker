@@ -4,10 +4,13 @@
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler publish",
-		"start": "wrangler dev"
+		"start": "wrangler dev",
+		"format": "biome format --write .",
+		"lint": "biome lint --write .",
+		"check": "biome check ."
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.9.4",
+		"@biomejs/biome": "^2.2.0",
 		"@cloudflare/vitest-pool-workers": "^0.8.8",
 		"@cloudflare/workers-types": "^4.20250401.0",
 		"typescript": "^5.8.2",

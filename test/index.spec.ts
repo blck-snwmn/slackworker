@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import {
 	createExecutionContext,
 	createMessageBatch,
@@ -7,6 +6,7 @@ import {
 	getQueueResult,
 	waitOnExecutionContext,
 } from "cloudflare:test";
+import { randomBytes } from "node:crypto";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import worker from "../src/worker";
 
@@ -49,7 +49,12 @@ describe("test queue producer", () => {
 					eventTimestamp: now.getTime(),
 					logs: [],
 					diagnosticsChannelEvents: [],
-				},
+					executionModel: "stateless",
+					truncated: false,
+					cpuTime: 0,
+					wallTime: 0,
+					spans: [],
+				} as TraceItem,
 			],
 			env,
 			ctx,
@@ -143,7 +148,12 @@ describe("test queue producer", () => {
 					eventTimestamp: now.getTime(),
 					logs: [],
 					diagnosticsChannelEvents: [],
-				},
+					executionModel: "stateless",
+					truncated: false,
+					cpuTime: 0,
+					wallTime: 0,
+					spans: [],
+				} as TraceItem,
 			],
 			env,
 			ctx,
@@ -237,13 +247,13 @@ describe("test queue comsumer", () => {
 			})
 			.reply(200);
 
-		const messages: ServiceBindingQueueMessage<QueueMessage>[] = [
+		const messages = [
 			{
 				id: randomBytes(16).toString("hex"),
 				timestamp: new Date(1000),
 				attempts: 0,
 				body: {
-					type: "chat.postMessage",
+					type: "chat.postMessage" as const,
 					body: {
 						channel: "TEST_CHANNEL",
 						body: "Test",
@@ -251,7 +261,7 @@ describe("test queue comsumer", () => {
 				},
 			},
 		];
-		const batch = createMessageBatch("queue", messages);
+		const batch = createMessageBatch<QueueMessage>("queue", messages);
 		const ctx = createExecutionContext();
 		await worker.queue(batch, env, ctx);
 

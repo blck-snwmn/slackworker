@@ -37,7 +37,7 @@ function eventName(
 }
 
 export default {
-	async tail(events: TraceItem[], env: Env, ctx: ExecutionContext) {
+	async tail(events: TraceItem[], env: Env, _ctx: ExecutionContext) {
 		if (events.length === 0) {
 			return;
 		}
@@ -130,7 +130,7 @@ export default {
 	async queue(
 		batch: MessageBatch<QueueMessage>,
 		env: Env,
-		ctx: ExecutionContext,
+		_ctx: ExecutionContext,
 	): Promise<void> {
 		console.log(batch.queue);
 		for (const message of batch.messages) {
