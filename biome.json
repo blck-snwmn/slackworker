@@ -4,6 +4,7 @@
 	"formatter": {
 		"includes": [
 			"**",
+			"!renovate.json",
 			"!**/node_modules/**/*",
 			"!**/*/build/**/*",
 			"!**/*/.wrangler/**/*",
