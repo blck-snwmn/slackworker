@@ -10,11 +10,11 @@
 		"check": "biome check ."
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.2.0",
-		"@cloudflare/vitest-pool-workers": "^0.8.66",
-		"@cloudflare/workers-types": "^4.20250822.0",
-		"typescript": "^5.9.2",
+		"@biomejs/biome": "2.2.0",
+		"@cloudflare/vitest-pool-workers": "0.8.66",
+		"@cloudflare/workers-types": "4.20250822.0",
+		"typescript": "5.9.2",
 		"vitest": "3.0.9",
-		"wrangler": "^4.32.0"
+		"wrangler": "4.32.0"
 	}
 }
