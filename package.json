@@ -10,7 +10,7 @@
 		"check": "biome check ."
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.2.2",
+		"@biomejs/biome": "2.2.4",
 		"@cloudflare/vitest-pool-workers": "0.8.66",
 		"@cloudflare/workers-types": "4.20250826.0",
 		"typescript": "5.9.2",
