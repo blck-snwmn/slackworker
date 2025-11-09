@@ -11,7 +11,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.7",
-		"@cloudflare/vitest-pool-workers": "0.9.13",
+		"@cloudflare/vitest-pool-workers": "0.9.14",
 		"@cloudflare/workers-types": "4.20250826.0",
 		"typescript": "5.9.3",
 		"vitest": "3.0.9",
