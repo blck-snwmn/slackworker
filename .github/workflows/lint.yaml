@@ -1,4 +1,4 @@
-name: Biome
+name: Lint
 
 on:
   push:
@@ -12,6 +12,7 @@ jobs:
         with:
           version: 8
           run_install: true
-      - name: biome
-        run: |
-          pnpm biome ci .
+      - name: fmt check
+        run: pnpm run fmt:check
+      - name: lint
+        run: pnpm run lint
