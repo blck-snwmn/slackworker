@@ -1,40 +1,51 @@
 # slackworker
+
 [![Deploy](https://github.com/blck-snwmn/slackworker/actions/workflows/deploy.yaml/badge.svg)](https://github.com/blck-snwmn/slackworker/actions/workflows/deploy.yaml)
 [![CodeQL](https://github.com/blck-snwmn/slackworker/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/blck-snwmn/slackworker/actions/workflows/github-code-scanning/codeql)
 
-A worker that consume messages from the queue and notifies Slack. 
+A worker that consume messages from the queue and notifies Slack.
 
 ## Setting(for Local)
+
 1. Create a file named .dev.vars in the project root directory.
 2. Write the following key-value pairs in the .dev.vars file:
-  ```
-  SLACK_TOKEN=<Your_SLACK_TOKEN>
-  ```
 
-Replace 
+```
+SLACK_TOKEN=<Your_SLACK_TOKEN>
+```
+
+Replace
+
 - '<Your_Slack_Bearer_Token>' with the bearer token for the Slack file upload API
 
 ## Setting
+
 Run the following commands to add your secrets to the Workers configuration:
 
 secret
+
 ```bash
 wrangler secret put SLACK_TOKEN
 ```
 
 queues
+
 ```bash
 wrangler queues create slackqueue
 ```
 
 ## Deploy
+
 After you've added the secrets, deploy the Worker with the following command:
+
 ```bash
 wrangler deploy
 ```
 
 ## Use
+
 ### Send to queue from cf worker(note: Queues is open beta)
+
 Add the following to your wrangler.toml
 
 ```toml
