@@ -6,7 +6,6 @@ import {
   getQueueResult,
   waitOnExecutionContext,
 } from "cloudflare:test";
-import { randomBytes } from "node:crypto";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import worker from "../src/worker";
 
@@ -245,7 +244,7 @@ describe("test queue comsumer", () => {
 
     const messages = [
       {
-        id: randomBytes(16).toString("hex"),
+        id: crypto.randomUUID(),
         timestamp: new Date(1000),
         attempts: 0,
         body: {
