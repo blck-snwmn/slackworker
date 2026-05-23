@@ -1,0 +1,9 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: "*.{ts,tsx,js,jsx,mjs,cjs}"
+      run: pnpm run lint
+    fmt:
+      glob: "*.{ts,tsx,js,jsx,mjs,cjs,json,md,yml,yaml,html,css}"
+      run: pnpm run fmt:check
