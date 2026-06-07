@@ -1,15 +1,16 @@
 import {
   createExecutionContext,
   createMessageBatch,
-  env,
-  fetchMock,
+  env as providedEnv,
   getQueueResult,
   waitOnExecutionContext,
 } from "cloudflare:test";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
+import { fetchMock } from "./fetch-mock";
 import worker from "../src/worker";
 
 const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
+const env = providedEnv as Env;
 
 beforeAll(() => {
   // Enable outbound request mocking...
