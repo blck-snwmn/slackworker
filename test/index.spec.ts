@@ -10,6 +10,7 @@ import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import worker from "../src/worker";
 
 const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
+const queueSendResponse = {} as QueueSendResponse;
 
 beforeAll(() => {
   // Enable outbound request mocking...
@@ -26,7 +27,7 @@ afterEach(() => {
 describe("test queue producer", () => {
   it("produces queue message with mocked send", async () => {
     // Intercept calls to `QUEUE_PRODUCER.send()`
-    const sendSpy = vi.spyOn(env.SQUEUE, "send").mockImplementation(async () => {});
+    const sendSpy = vi.spyOn(env.SQUEUE, "send").mockImplementation(async () => queueSendResponse);
 
     const now = new Date();
 
