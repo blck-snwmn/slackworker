@@ -18,6 +18,6 @@
 		"oxlint-tsgolint": "0.22.1",
 		"typescript": "5.9.3",
 		"vitest": "3.2.6",
-		"wrangler": "4.59.3"
+		"wrangler": "4.98.0"
 	}
 }
