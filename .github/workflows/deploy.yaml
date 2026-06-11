@@ -20,7 +20,7 @@ jobs:
           persist-credentials: false
       - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
         with:
-          version: 8
+          version: 11
       - name: Deploy
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4.0.0
         with:
