@@ -12,13 +12,13 @@
 		"fmt:check": "oxfmt --check src/ test/"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "0.10.15",
+		"@cloudflare/vitest-pool-workers": "0.16.14",
 		"@cloudflare/workers-types": "4.20260611.1",
 		"oxfmt": "0.54.0",
 		"oxlint": "1.69.0",
 		"oxlint-tsgolint": "0.23.0",
 		"typescript": "6.0.3",
-		"vitest": "3.2.6",
+		"vitest": "4.1.8",
 		"wrangler": "4.99.0"
 	}
 }
