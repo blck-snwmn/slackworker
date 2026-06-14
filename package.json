@@ -13,12 +13,12 @@
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "0.10.15",
-		"@cloudflare/workers-types": "4.20251205.0",
-		"oxfmt": "0.48.0",
-		"oxlint": "1.63.0",
-		"oxlint-tsgolint": "0.22.1",
-		"typescript": "5.9.3",
+		"@cloudflare/workers-types": "4.20260610.1",
+		"oxfmt": "0.54.0",
+		"oxlint": "1.69.0",
+		"oxlint-tsgolint": "0.23.0",
+		"typescript": "6.0.3",
 		"vitest": "3.2.6",
-		"wrangler": "4.59.3"
+		"wrangler": "4.99.0"
 	}
 }
