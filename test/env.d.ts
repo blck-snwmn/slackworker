@@ -1,4 +1,9 @@
-declare module "cloudflare:test" {
-  // Controls the type of `import("cloudflare:test").env`
-  interface ProvidedEnv extends Env {}
+import "@cloudflare/vitest-pool-workers/types";
+
+type TestEnv = Env;
+
+declare global {
+  namespace Cloudflare {
+    interface Env extends TestEnv {}
+  }
 }

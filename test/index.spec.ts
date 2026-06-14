@@ -2,21 +2,18 @@ import {
   createExecutionContext,
   createMessageBatch,
   env,
-  fetchMock,
   getQueueResult,
   waitOnExecutionContext,
 } from "cloudflare:test";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import worker from "../src/worker";
+import { fetchMock } from "./fetch-mock";
 
 const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
 const queueSendResponse = {} as QueueSendResponse;
 
 beforeAll(() => {
-  // Enable outbound request mocking...
   fetchMock.activate();
-  // ...and throw errors if an outbound request isn't mocked
-  fetchMock.disableNetConnect();
 });
 
 afterEach(() => {
