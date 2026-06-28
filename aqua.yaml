@@ -13,4 +13,4 @@ registries:
 packages:
   - name: evilmartians/lefthook@v2.1.9
   - name: suzuki-shunsuke/pinact@v4.1.0
-  - name: zizmorcore/zizmor@v1.26.0
+  - name: zizmorcore/zizmor@v1.26.1
