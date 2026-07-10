@@ -10,7 +10,3 @@ enabled = true
 
 [[queues.consumers]]
 queue = "slackqueue"
-
-[[queues.producers]]
-queue = "slackqueue"
-binding = "SQUEUE"
